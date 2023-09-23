@@ -128,7 +128,7 @@ def dfs_tabs(df_list, sheet_list):
     writer = pd.ExcelWriter(output, engine='xlsxwriter')   
     for dataframe, sheet in zip(df_list, sheet_list):
         dataframe.to_excel(writer, sheet_name=sheet, startrow=0 , startcol=0)   
-    writer.save()
+    writer.close()
 
     processed_data = output.getvalue()
     return processed_data

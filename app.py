@@ -67,33 +67,59 @@ def add_work_hours_random_offdays(german_dates, german_weekdays,name):
     # Randomly select the two off days after 5 workdays
     seed_value = sum(ord(char) for char in name)
     random.seed(seed_value)
-    off_days_indices = random.sample(range(5, 7), 2)
-
-    for idx, weekday in enumerate(german_weekdays):
-        if work_days_counter < 5:  # If it's a work day
+    off_days = ["Montag"]
+    remaining_days = [day for day in weekday_translation.values() if day not in off_days]
+    additional_off_day = random.choice(remaining_days)
+    off_days.append(additional_off_day)
+    
+    for weekday in german_weekdays:
+        if weekday in off_days:  # If it's an off day
+            von_morgen_list.append('')
+            end_morgen_list.append('')
+            von_nacht_list.append('')
+            end_nacht_list.append('')
+            gesamt_stunden_list.append('')
+        else:  # Work days
             von_morgen_list.append(morgen_time)
             end_morgen_list.append(bis_morgen)
             von_nacht_list.append(mittag_time)
             end_nacht_list.append(bis_mittag)
             gesamt_stunden_list.append(work_hours)
-            work_days_counter += 1
-        else:  # Two days off after 5 work days
-            if idx % 7 in off_days_indices:
-                von_morgen_list.append('')
-                end_morgen_list.append('')
-                von_nacht_list.append('')
-                end_nacht_list.append('')
-                gesamt_stunden_list.append('')
-                work_days_counter += 1
-                if work_days_counter == 7:  # Reset counter after 7 days
-                    work_days_counter = 0
-            else:
-                von_morgen_list.append(morgen_time)
-                end_morgen_list.append(bis_morgen)
-                von_nacht_list.append(mittag_time)
-                end_nacht_list.append(bis_mittag)
-                gesamt_stunden_list.append(8)
-                work_days_counter += 1
+
+    # for idx, weekday in enumerate(german_weekdays):
+    #     if work_days_counter < 5:  # If it's a work day
+    #         von_morgen_list.append(morgen_time)
+    #         end_morgen_list.append(bis_morgen)
+    #         von_nacht_list.append(mittag_time)
+    #         end_nacht_list.append(bis_mittag)
+    #         gesamt_stunden_list.append(work_hours)
+    #         work_days_counter += 1
+    #     else:  # Off days
+    #         von_morgen_list.append('')
+    #         end_morgen_list.append('')
+    #         von_nacht_list.append('')
+    #         end_nacht_list.append('')
+    #         gesamt_stunden_list.append('')
+    #         work_days_counter += 1
+    #         if work_days_counter == 7:  # Reset counter after 7 days
+    #             work_days_counter = 0
+        # else:  # Two days off after 5 work days
+        #     if idx % 7 in off_days_indices:
+        #         von_morgen_list.append('')
+        #         end_morgen_list.append('')
+        #         von_nacht_list.append('')
+        #         end_nacht_list.append('')
+        #         gesamt_stunden_list.append('')
+        #         work_days_counter += 1
+        #         if work_days_counter == 7:  # Reset counter after 7 days
+        #             work_days_counter = 0
+        #     else:
+        #         von_morgen_list.append(morgen_time)
+        #         end_morgen_list.append(bis_morgen)
+        #         von_nacht_list.append(mittag_time)
+        #         end_nacht_list.append(bis_mittag)
+        #         gesamt_stunden_list.append(8)
+        #         work_days_counter += 1
 
     return von_morgen_list, end_morgen_list, von_nacht_list, end_nacht_list, gesamt_stunden_list
 
